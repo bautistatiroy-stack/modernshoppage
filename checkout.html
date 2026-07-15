@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Checkout</title>
+
+    <style>
+        body {
+            font-family: Arial;
+            padding: 20px;
+        }
+        
+        .send-btn {
+            position: fixed;
+            bottom: 15px;
+            right: 1px;
+            background: #28a745;
+            color: white;
+            padding: 10px 11px;
+            border-radius: 25px;
+            font-weight: bold;
+            z-index: 999;
+            cursor: pointer;
+        }
+        
+        .back-btn {
+            position: fixed;
+            bottom: 15px;
+            left: 20px;
+            background: #05b6f1;
+            color: white;
+            padding: 12px 18px;
+            border-radius: 25px;
+            font-weight: bold;
+            z-index: 999;
+            cursor: pointer;
+        }
+        
+        .back-btn :hover {
+            background: #fd0d0d;
+        }
+        
+        button:disabled {
+            background: gray;
+        }
+        
+        .item {
+            border-bottom: 1px solid #ccc;
+            padding: 10px 10px;
+        }
+        
+        #msg {
+            margin-top: 15px;
+            font-weight: bold;
+            position: fixed;
+            top: 560px;
+            left: 50%;
+            text-align: center;
+            background: rgba(3, 249, 3, 0.85);
+            color: white;
+            padding: 12px 20px;
+            border-radius: 25px;
+        }
+        
+        .total-list {
+            position: fixed;
+            bottom: 15px;
+            left: 55%;
+            width: auto;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.95);
+            color: white;
+            padding: 12px 20px;
+            border-radius: 25px;
+            text-align: center;
+            z-index: 999;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, .2);
+        }
+        
+        .fb {
+            background-color: #2196F3;
+            padding: 10px 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <h2>Chat me on facebook and send me the phone number </h2>
+    <div class="fb" onclick="goFacebook()">
+        Facebook</div>
+
+
+    <h2>🧾 Checkout</h2>
+
+    <form id="form">
+        <input type="hidden" id="name" name="name">
+        <input type="hidden" id="address" name="address">
+        <input type="hidden" id="phone" name="phone">
+        <input type="hidden" id="deliver" name="deliver">
+        <input type="hidden" id="orderType" name="orderType">
+        <input type="hidden" id="items" name="items">
+        <input type="hidden" id="total" name="total">
+        <input type="hidden" id="location" name="location">
+
+        <h4><b>Name:</b> <span id="n"></span></h4>
+        <h4><b>Address:</b> <span id="a"></span></h4>
+        <h4><b>Phone:</b> <span id="p"></span></h4>
+        <h5><b>Date & Time of Processing order:</b> <span id="d"></span></h5>
+        <h4><b>Order Type:</b> <span id="o"></span></h4>
+
+        <h3>Items:</h3>
+        <div id="itemList"></div>
+
+        <div class="total-list">
+            Total: ₱<span id="t"></span>
+        </div>
+        <button type="submit" id="submitBtn" class="send-btn " onclick="gosend()">
+            Send Order
+        </button>
+
+        <button type="button" class="back-btn" onclick="goShop()">
+⬅ Back Shop
+</button>
+
+    </form>
+    <p id="msg"></p>
+
+
+    <script src="checkout.js"></script>
+
+    <script>
+        function goFacebook() {
+            window.location.href = "https://www.facebook.com/tiroy.bautista/";
+        }
+
+        function goShop() {
+            window.location.href = "cart12.html";
+        }
+
+        let name = localStorage.getItem("name") || "";
+        let address = localStorage.getItem("address") || "";
+        let phone = localStorage.getItem("phone") || "";
+        let delivery = localStorage.getItem("deliver") || "";
+        let orderType = localStorage.getItem("orderType") || "";
+        // ✅ FIXED CART LOAD
+        let cartItems = JSON.parse(localStorage.getItem("cart")) || [];
+
+        let total = 0;
+        let itemsHTML = "";
+
+        // BUILD ITEMS (FIXED)
+        cartItems.forEach(item => {
+
+            let subtotal = item.price * item.qty;
+            total += subtotal;
+
+            itemsHTML += `
+                <div class="item">
+                    <b>${item.name}</b><br>
+                    Price: ₱${item.price}<br>
+                    Qty: ${item.qty}<br>
+                    Subtotal: ₱${subtotal}
+                </div>
+            `;
+        });
+
+        // DISPLAY
+        document.getElementById("n").innerText = name;
+        document.getElementById("a").innerText = address;
+        document.getElementById("p").innerText = phone;
+        document.getElementById("d").innerText = delivery;
+        document.getElementById("o").innerText = orderType;
+
+        document.getElementById("itemList").innerHTML = itemsHTML;
+        document.getElementById("t").innerText = total;
+
+        // HIDDEN INPUTS (FIXED IDs)
+        document.getElementById("name").value = name;
+        document.getElementById("address").value = address;
+        document.getElementById("phone").value = phone;
+        document.getElementById("deliver").value = delivery;
+        document.getElementById("orderType").value = orderType;
+        document.getElementById("items").value = itemsHTML;
+        document.getElementById("total").value = total;
+
+        // SUBMIT
+        form.addEventListener("submit", async(e) => {
+            e.preventDefault();
+
+            submitBtn.disabled = true;
+            submitBtn.innerText = "⏳ Sending...";
+
+            msg.innerText = "Submitting order...";
+
+            try {
+
+                const response = await fetch(url, {
+                    method: "POST",
+                    body: new FormData(form)
+                });
+
+                const result = await response.text();
+
+                if (response.ok) {
+
+                    msg.innerText = "🎉 Order Sent Successfully Thank you for your order. 😊🍔!";
+                    // ✅ FIX: clear correct cart
+                    localStorage.removeItem("cart");
+
+                } else {
+                    msg.innerText = "❌ Failed: " + result;
+                }
+
+            } catch (error) {
+                msg.innerText = "❌ Network Error";
+            }
+
+            submitBtn.disabled = false;
+            submitBtn.innerText = "Send Order";
+        });
+    </script>
+
+</body>
+
+</html>

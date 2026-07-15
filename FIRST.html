@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial;
+        }
+        
+        body {
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(rgba(0, 0, 0, .6), rgba(0, 0, 0, .6)), url('https://th.bing.com/th/id/OIP.C8811Y490Y4l_MtSLtv84AHaEP');
+            background-size: cover;
+            background-position: center;
+            overflow: hidden;
+        }
+        /* LOGIN BOX */
+        
+        .login-box {
+            width: 100%;
+            max-width: 380px;
+            padding: 100px;
+            border-radius: 20px;
+            background: rgba(19, 19, 19, 0.511);
+            color: #fff;
+        }
+        /* INPUT */
+        
+        .input-box {
+            margin: 15px 0;
+            padding: px;
+        }
+        
+        input {
+            width: 200px;
+            padding: 20px;
+            border: none;
+            border-radius: 10px;
+            outline: none;
+            font-size: 10px;
+            color: #171a17;
+        }
+        
+        .input-box input {
+            padding: 12px 10px;
+            font-size: 14px;
+        }
+        /* BUTTON */
+        
+        button {
+            width: 100%;
+            padding: 12px;
+            margin-top: 10px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        
+        .login-btn {
+            background: linear-gradient(45deg, #ea580c, #fb923c);
+            color: white;
+        }
+        
+        .login-btn:hover {
+            background: linear-gradient(45deg, #ad5f27, #216b44);
+        }
+        /* TYPING */
+        
+        .typing-box {
+            margin-top: 15px;
+            height: 25px;
+            position: relative;
+            font: size 10px;
+        }
+        
+        .typing {
+            position: absolute;
+            white-space: nowrap;
+            overflow: hidden;
+            width: 0;
+            border-right: 2px solid #fff;
+        }
+        
+        .t1 {
+            animation: type1 6s infinite;
+            font: size 10px;
+        }
+        
+        .t2 {
+            animation: type2 6s infinite;
+            font: size 7px;
+        }
+        
+        .t3 {
+            animation: type3 6s infinite;
+            font: size 1px;
+        }
+        
+        @keyframes type1 {
+            0% {
+                width: 0;
+                opacity: 0
+            }
+            10% {
+                opacity: 1
+            }
+            30% {
+                width: 25ch;
+                opacity: 1
+            }
+            40% {
+                opacity: 0
+            }
+            100% {
+                width: 0;
+                opacity: 0
+            }
+        }
+        
+        @keyframes type2 {
+            0% {
+                width: 0;
+                opacity: 0
+            }
+            35% {
+                opacity: 0
+            }
+            45% {
+                opacity: 1
+            }
+            65% {
+                width: 25ch;
+                opacity: 1
+            }
+            75% {
+                opacity: 0
+            }
+            100% {
+                width: 0;
+                opacity: 0
+            }
+        }
+        
+        @keyframes type3 {
+            0% {
+                width: 0;
+                opacity: 0
+            }
+            65% {
+                opacity: 0
+            }
+            75% {
+                opacity: 1
+            }
+            90% {
+                width: 20ch;
+                opacity: 1
+            }
+            100% {
+                opacity: 0
+            }
+        }
+        /* FLOATING ICONS */
+        
+        .snack {
+            position: absolute;
+            bottom: -50px;
+            font-size: 24px;
+            animation: float 10s linear infinite;
+        }
+        
+        @keyframes float {
+            from {
+                transform: translateY(0)
+            }
+            to {
+                transform: translateY(-120vh)
+            }
+        }
+        
+        .snack img {
+            width: 50px;
+            height: 50px;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+        /* CART */
+        
+        .cart-container {
+            max-width: 1200px;
+            margin: 20px auto;
+        }
+        
+        .closed-container {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .card {
+            width: 100%;
+            max-width: 500px;
+            background: #fff;
+            padding: 40px 30px;
+            text-align: center;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, .15);
+        }
+        
+        .card h1 {
+            color: #e53935;
+            font-size: 2rem;
+            margin-bottom: 15px;
+        }
+        
+        .card p {
+            color: #555;
+            font-size: 17px;
+            line-height: 1.6;
+            margin-bottom: 25px;
+        }
+        
+        .card h2 {
+            font-size: 20px;
+            color: #222;
+            margin-bottom: 20px;
+        }
+        
+        .facebook {
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            width: 220px;
+            height: 50px;
+            background: #1877F2;
+            color: #fff;
+            font-size: 18px;
+            font-weight: bold;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: .3s;
+            user-select: none;
+        }
+        
+        .facebook:hover {
+            transform: translateY(-3px);
+            background: #166fe5;
+        }
+        
+        .facebook:active {
+            transform: scale(.96);
+        }
+        
+        @media (max-width:600px) {
+            .card {
+                padding: 30px 20px;
+            }
+            .card h1 {
+                font-size: 1.6rem;
+            }
+            .card h2 {
+                font-size: 18px;
+            }
+            .card p {
+                font-size: 15px;
+            }
+            .facebook {
+                width: 100%;
+                font-size: 16px;
+            }
+        }
+        
+        select {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 10px;
+            outline: none;
+            font-size: 14px;
+            color: #171a17;
+            background: white;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- FLOATING -->
+    <div class="snack" style="left:10%; font-size: 13px;">
+        <img src="burger.jpg" alt="f1 free cup cake soft  drink">
+    </div>
+
+    <div class="snack" style="left:30%; animation-delay:9s;">
+        <img src="spagithie.jpg" alt="spagithie">
+    </div>
+
+    <div class="snack" style="left:50%; animation-delay:3s;">
+        <img src="fries.jpg" alt="fries">
+    </div>
+
+    <div class="snack" style="left:70%; animation-delay:2s;">
+        <img src="donut.jpg" alt="donut">
+    </div>
+    <div class="login-box">
+        <div id="shop"></div>
+        <h2>🍔 Food Client Login</h2>
+
+        <div class="input-box">
+            <input id="name" placeholder="Full Name">
+        </div>
+
+        <div class="input-box">
+            <input id="address" placeholder="Address">
+        </div>
+
+        <div class="input-box">
+            <input id="phone" placeholder="Phone Number">
+        </div>
+
+
+        <div class="input-box">
+            <select id="orderType">
+        <option value="" selected disabled>Pick-Up or Delivery</option>
+        <option value="Pickup">🏪 Pick-up</option>
+        <option value="Delivery">🚚 Delivery</option>
+    </select>
+        </div>
+        <h3>Preparing order date and time </h3>
+        <div class="input-box">
+            <input type="datetime-local" id="deliver">
+
+        </div>
+
+        <button class="login-btn" onclick="login()">Next</button>
+
+
+        <div class="typing-box">
+            <div class="typing t1">👋 Hello Client</div>
+            <div class="typing t2">🍔 Welcome to Fast Food</div>
+            <div class="typing t3">🎉 Enjoy Ordering</div>
+        </div>
+
+    </div>
+
+    <script>
+        /*foropen and close shop*/
+        const API = "https://script.google.com/macros/s/AKfycbzEeIKctiFOYS4ZfUhN2HXT9MVzFfGdeazpIQ0yP9tQWs9jdsgSg1jS-RDj0IpY00HQ9g/exec";
+
+        // 🔥 CHECK SHOP STATUS
+        async function loadShop() {
+            try {
+                const res = await fetch(API);
+                const data = await res.json();
+
+                const status = String(data.shop_open).toLowerCase();
+
+                if (status === "false") {
+                    document.body.innerHTML = `
+                <div class="closed-container">
+
+    <div class="card">
+
+        <h1> Shop is Closed</h1>
+
+        <p>
+            Sorry, we are currently closed. Please check back later.
+        </p>
+
+        <h2>Chat with me on Facebook and send your phone number.</h2>
+
+        <div class="facebook" onclick="goFacebook()">
+            My Facebook
+        </div>
+
+      </div>
+            `;
+
+                    return;
+                }
+
+                document.getElementById("shop").innerHTML =
+                    "<h2 style='color:lime;text-align:center;font-size:10px;'> OPEN TO ORDER</h2>";
+
+            } catch (err) {
+                document.body.innerHTML = `
+            <div style="text-align:center;padding:50px;color:black;">
+                <h1>⚠️ Server Error</h1>
+                <p>Cannot connect to Apps Script</p>
+            </div>
+
+            `;
+                console.error(err);
+            }
+        }
+
+        function goFacebook() {
+            window.location.href = "https://www.facebook.com/tiroy.bautista/";
+        }
+
+
+
+        function login() {
+            localStorage.setItem("name", document.getElementById("name").value);
+            localStorage.setItem("address", document.getElementById("address").value);
+            localStorage.setItem("phone", document.getElementById("phone").value);
+            localStorage.setItem("deliver", document.getElementById("deliver").value);
+            localStorage.setItem("orderType", document.getElementById("orderType").value);
+
+            window.location.href = "shoptest.html";
+        }
+
+        loadShop();
+    </script>
+
+</body>
+
+</html>

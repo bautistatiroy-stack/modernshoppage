@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Shopping Cart</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #ff9a44, #fc6076);
+            padding: 15px;
+            min-height: 100vh;
+        }
+        
+        h2 {
+            color: white;
+            margin-bottom: 15px;
+        }
+        /* CART CARD */
+        
+        .card {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            margin-bottom: 20px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        }
+        
+        .card img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+        }
+        
+        .content {
+            padding: 15px;
+        }
+        
+        .name {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 8px;
+            color: #333;
+        }
+        
+        .price {
+            font-size: 16px;
+            font-weight: bold;
+            color: #ff6600;
+            margin-bottom: 10px;
+        }
+        /* QTY */
+        
+        .qty {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            margin: 10px 0;
+        }
+        
+        .qty button {
+            width: 40px;
+            height: 40px;
+            border: none;
+            border-radius: 50%;
+            background: #ff6600;
+            color: white;
+            font-size: 20px;
+            cursor: pointer;
+        }
+        
+        .qty span {
+            font-size: 18px;
+            font-weight: bold;
+        }
+        
+        .subtotal {
+            text-align: center;
+            font-size: 16px;
+            color: #666;
+            margin: 10px 0;
+        }
+        /* REMOVE BUTTON */
+        
+        .remove {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            background: #ff3b30;
+            color: white;
+            font-size: 16px;
+            border-radius: 15px;
+            cursor: pointer;
+        }
+        /* TOP BUTTONS */
+        
+        .back {
+            position: fixed;
+            bottom: 15px;
+            left: 15px;
+            background: #05b6f1;
+            color: white;
+            padding: 12px 18px;
+            border-radius: 25px;
+            font-weight: bold;
+            z-index: 999;
+            cursor: pointer;
+        }
+        
+        .checkoutt {
+            position: fixed;
+            bottom: 15px;
+            right: 1px;
+            background: #28a745;
+            color: white;
+            padding: 10px 11px;
+            border-radius: 25px;
+            font-weight: bold;
+            z-index: 999;
+            cursor: pointer;
+        }
+        
+        .total-box {
+            position: fixed;
+            bottom: 15px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.95);
+            color: white;
+            padding: 12px 20px;
+            border-radius: 25px;
+            text-align: center;
+            z-index: 999;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, .2);
+        }
+        
+        .total-box h3 {
+            margin: 0;
+            font-size: 18px;
+        }
+        /* EMPTY */
+        
+        .empty {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            text-align: center;
+            font-size: 18px;
+            color: #666;
+        }
+        
+        @media (max-width: 500px) {
+            .card img {
+                height: 150px;
+            }
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <h2>🛒 Shopping Cart</h2>
+
+
+    <div class="back" onclick="backShop()">⬅ Back </div>
+
+    <div class="checkoutt" onclick="checkout()">Checkout ➜</div>
+
+
+    <div id="cart"></div>
+
+    <div class="total-box">
+        <h3>Total ₱<span id="total">0</span></h3>
+    </div>
+
+    <script>
+        let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+        function render() {
+
+            let html = "";
+            let total = 0;
+
+            if (cart.length === 0) {
+                document.getElementById("cart").innerHTML = `
+                    <div class="empty">🛒 Your cart is empty</div>
+                `;
+                document.getElementById("total").innerText = 0;
+                return;
+            }
+
+            cart.forEach((item, i) => {
+
+                let subtotal = item.price * item.qty;
+                total += subtotal;
+
+                html += `
+<div class="card">
+<img src="${item.img}">
+    <div class="content">
+
+        <div class="name">${item.name}</div>
+
+        <div class="price">₱${item.price}</div>
+
+        <div class="qty">
+            <button onclick="minus(${i})">−</button>
+            <span>${item.qty}</span>
+            <button onclick="plus(${i})">+</button>
+        </div>
+
+        <div class="subtotal">
+            Subtotal: ₱${subtotal}
+        </div>
+
+        <button class="remove" onclick="removeItem(${i})">
+            🗑 Remove
+        </button>
+
+    </div>
+
+</div>
+`;
+            });
+
+            document.getElementById("cart").innerHTML = html;
+            document.getElementById("total").innerText = total;
+        }
+
+        function plus(i) {
+            cart[i].qty++;
+            save();
+        }
+
+        function minus(i) {
+            if (cart[i].qty > 1) {
+                cart[i].qty--;
+            }
+            save();
+        }
+
+        function removeItem(i) {
+            cart.splice(i, 1);
+            save();
+        }
+
+        function save() {
+            localStorage.setItem("cart", JSON.stringify(cart));
+            render();
+        }
+
+        function checkout() {
+            if (cart.length == 0) {
+                alert("Cart Empty");
+                return;
+            }
+            window.location = "checkout.html";
+        }
+
+        function backShop() {
+            window.location = "shoptest.html";
+        }
+
+        render();
+    </script>
+
+</body>
+
+</html>

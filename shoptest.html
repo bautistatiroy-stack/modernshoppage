@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Shop</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        /* RESET */
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Arial, sans-serif;
+        }
+        /* BODY */
+        
+        body {
+            background: #e996d8;
+            padding: 20px;
+            color: #1e293b;
+        }
+        /* PRODUCTS GRID */
+        
+        .products {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+            gap: 20px;
+        }
+        
+        .products.hover {
+            transform: scale(1.100);
+            box-shadow: 0 12px 25px rgba(0, 0, 0, .15);
+        }
+        /* PRODUCT CARD */
+        
+        .card {
+            background: #FFFFFF;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 6px 18px rgba(0, 0, 0, .08);
+            transition: .3s;
+            text-align: center;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 25px rgba(0, 0, 0, .15);
+        }
+        /* PRODUCT IMAGE */
+        
+        .card img {
+            width: 100%;
+            height: 170px;
+            object-fit: cover;
+        }
+        
+        .card img:hover {
+            transform: scale(1.05);
+            transition: .3s;
+            max-width: 100%;
+            max-height: 100%;
+            BACKGROUND-COLOR: #0b91ac;
+        }
+        /* CARD CONTENT */
+        
+        .card h3 {
+            font-size: 18px;
+            margin: 15px 10px 8px;
+            color: #1e293b;
+        }
+        
+        .card p {
+            color: #64748b;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+        
+        .price {
+            color: #2563eb;
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+        /* BUTTON */
+        
+        button {
+            width: 90%;
+            margin: 0 auto 15px;
+            padding: 12px;
+            border: none;
+            border-radius: 30px;
+            background: #F97316;
+            color: #fff;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: .3s;
+        }
+        
+        button:hover {
+            background: #22C55E;
+            transform: scale(1.03);
+        }
+        /* CART BUTTON */
+        
+        .cart-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: auto;
+            padding: 14px 22px;
+            background: #16a34a;
+            border-radius: 50px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, .2);
+            z-index: 1000;
+        }
+        
+        .cart-btn:hover {
+            background: #15803d;
+        }
+        /* MOBILE */
+        
+        @media(max-width:900px) {
+            body {
+                padding: 15px;
+            }
+            .products {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 15px;
+            }
+            .card img {
+                height: 250px;
+                background-color: #0b91ac;
+            }
+            .card h3 {
+                font-size: 16px;
+            }
+            .price {
+                font-size: 18px;
+            }
+        }
+        
+        .cart-btn {
+            background: rgba(44, 210, 91, 0.85);
+            position: fixed;
+            bottom: 15px;
+            right: 2px;
+            transform: translateX(-50%);
+            color: white;
+            padding: 12px 30px;
+            border-radius: 20px;
+        }
+        
+        .cart-back {
+            background: rgba(0, 0, 0, 0.85);
+            position: fixed;
+            bottom: 15px;
+            left: 100px;
+            transform: translateX(-50%);
+            color: white;
+            padding: 12px 30px;
+            border-radius: 10px;
+        }
+        
+        .h2 {
+            font-size: 20px;
+            color: white;
+            text-align: center;
+            margin-bottom: 15px;
+            background: linear-gradient(135deg, #e5963c, #715a04);
+            padding: 10px;
+            border-radius: 10px;
+        }
+        
+        .quantity-box {
+            margin: 15px 0;
+            padding: 12px;
+            background: #0b91ac;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+        }
+        
+        .quantity-box label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            color: #334155;
+        }
+        
+        .quantity-box input {
+            width: 100%;
+            padding: 10px;
+            font-size: 18px;
+            font-weight: bold;
+            text-align: center;
+            border: 2px solid #2563eb;
+            border-radius: 10px;
+            outline: none;
+            transition: .3s;
+            background: #fff;
+            color: #1e293b;
+        }
+        
+        .quantity-box input:focus {
+            border-color: #06b6d4;
+            box-shadow: 0 0 8px rgba(37, 99, 235, .3);
+        }
+    </style>
+</head>
+
+<body>
+
+    <h2 class="h2">Order now</h2>
+
+    <div class="cart-btn" onclick="goCart()">Cart->
+    </div>
+
+    <div class="cart-back" onclick="goBack()">Back
+    </div>
+    <div class="products" id="products"></div>
+
+    <script>
+        function goBack() {
+            window.location = "FIRST.html";
+        }
+        const API = "https://script.google.com/macros/s/AKfycbyL-f7sdsoMR2FvX8EgSXpqchMHYD_d_y4kMDuXYsQyFotusCZmIH7iNavYvO4WbjAQ/exec";
+
+        let products = [];
+        let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+        function goCart() {
+            window.location = "cart12.html";
+        }
+
+        function loadProducts() {
+
+            fetch(API)
+                .then(r => r.json())
+                .then(data => {
+
+                    products = data;
+
+                    let html = "";
+
+                    products.forEach((p, i) => {
+
+                        html += `
+<div class="card">
+
+    <img src="${p.img}">
+    <h4>${p.name}</h4>
+    <div>₱${p.price}</div>
+    <div>Stock : ${p.stock}</div>
+
+<div class="quantity-box">
+    <label for="q${i}">Quantity</label>
+    <input id="q${i}" type="number" value="0" min="1">
+</div>
+
+
+<button onclick="add(${i})">
+Add To Cart
+</button>
+
+</div>
+`;
+
+                    });
+
+                    document.getElementById("products").innerHTML = html;
+
+                });
+
+        }
+
+        function add(i) {
+
+            let q = Number(document.getElementById("q" + i).value);
+
+            cart.push({
+                id: products[i].id,
+                name: products[i].name,
+                price: Number(products[i].price),
+                img: products[i].img,
+
+                qty: q
+            });
+
+            localStorage.setItem(
+                "cart",
+                JSON.stringify(cart)
+            );
+
+            alert("Added to cart");
+
+        }
+
+        loadProducts();
+    </script>
+
+</body>
+
+</html>

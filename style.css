@@ -1,0 +1,96 @@
+/*admin*/
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial;
+}
+
+body {
+    background: #fff7ed;
+}
+
+
+/* HEADER */
+
+.topbar {
+    background: linear-gradient(45deg, #fd5a03, #a6dd0c);
+    color: white;
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.topbar h1 {
+    font-size: 28px;
+}
+
+.logout-btn {
+    background: #dc2626;
+    border: none;
+    color: white;
+    padding: 10px 18px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+
+/* LOGIN */
+
+.login-box {
+    max-width: 420px;
+    margin: 70px auto;
+    background: white;
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+}
+
+.login-box h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #ea580c;
+}
+
+.login-box input {
+    width: 100%;
+    padding: 14px;
+    margin-bottom: 15px;
+    border-radius: 12px;
+    border: 1px solid #ccc;
+}
+
+.login-btn {
+    width: 100%;
+    padding: 14px;
+    border: none;
+    border-radius: 12px;
+    background: linear-gradient(45deg, #ea580c, #fb923c);
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.back-btn {
+    width: 100%;
+    padding: 14px 10px;
+    margin-top: 1px;
+    margin-bottom: 14px;
+    border: none;
+    border-radius: 12px;
+    background: linear-gradient(45deg, #ea580c, #fb923c);
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.back-btn:hover {
+    background: linear-gradient(45deg, #4cf205, #b75404);
+    transform: scale(1.07);
+}

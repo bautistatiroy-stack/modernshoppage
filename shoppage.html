@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Shop</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+
+    </style>
+</head>
+
+<body>
+
+    <h2>Order na</h2>
+
+    <button class="cart-btn" onclick="goCart()">Cart</button>
+
+    <div class="products" id="products"></div>
+
+    <script>
+        const API = "https://script.google.com/macros/s/AKfycbyL-f7sdsoMR2FvX8EgSXpqchMHYD_d_y4kMDuXYsQyFotusCZmIH7iNavYvO4WbjAQ/exec";
+
+        let products = [];
+        let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+        function goCart() {
+            window.location = "cart12.html";
+        }
+
+        function loadProducts() {
+
+            fetch(API)
+                .then(r => r.json())
+                .then(data => {
+
+                    products = data;
+
+                    let html = "";
+
+                    products.forEach((p, i) => {
+
+                        html += `
+<div class="card">
+
+<img src="${p.img}">
+
+<h4>${p.name}</h4>
+
+<div>₱${p.price}</div>
+
+<div>Stock : ${p.stock}</div>
+
+<input id="q${i}" type="number" value="1" min="1">
+
+<button onclick="add(${i})">
+Add To Cart
+</button>
+
+</div>
+`;
+
+                    });
+
+                    document.getElementById("products").innerHTML = html;
+
+                });
+
+        }
+
+        function add(i) {
+
+            let q = Number(document.getElementById("q" + i).value);
+
+            cart.push({
+                id: products[i].id,
+                name: products[i].name,
+                price: Number(products[i].price),
+                img: products[i].img,
+                qty: q
+            });
+
+            localStorage.setItem(
+                "cart",
+                JSON.stringify(cart)
+            );
+
+            alert("Added to cart");
+
+        }
+
+        loadProducts();
+    </script>
+
+</body>
+
+</html>>
